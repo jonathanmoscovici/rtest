@@ -1,5 +1,6 @@
 ---
-title: "R markdown test hello world happygitwithr"
+title: "R Markdown Test and Demo"
+runtime: shiny
 author: "Jonathan Moscovici"
 date: "August 4, 2016"
 output: html_document
@@ -28,3 +29,24 @@ plot(pressure)
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r, echo = FALSE}
+library(rsconnect)
+shinyApp(
+  
+  ui = fluidPage(
+    selectInput("region", "Region:", 
+                choices = colnames(WorldPhones)),
+    plotOutput("phonePlot")
+  ),
+  
+  server = function(input, output) {
+    output$phonePlot <- renderPlot({
+      barplot(WorldPhones[,input$region]*1000, 
+              ylab = "Number of Telephones", xlab = "Year")
+    })
+  },
+  
+  options = list(height = 500)
+)
+```
