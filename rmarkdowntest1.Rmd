@@ -1,6 +1,5 @@
 ---
 title: "R Markdown Test and Demo"
-runtime: shiny
 author: "Jonathan Moscovici"
 date: "August 4, 2016"
 output: html_document
@@ -30,8 +29,36 @@ plot(pressure)
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 
+##Shiny Applications
+You can now also embed what are known as "Shiny" applications into an R Markdown file. This lets users interact with plots and tables (or TLFs).
+Below, we are using a WorldPhones dataset, that presents the number of telephones by region over the years. The user can select the region from a drop-down menu, which generates a new plot containing the requested information.
+Shiny applications are just bits of R code that can be tailored to all kinds of data and analysis requests.
+
 ```{r, echo = FALSE}
-library(rsconnect)
+# shinyApp(
+#   
+#   ui = fluidPage(
+#     selectInput("region", "Region:", 
+#                 choices = colnames(WorldPhones)),
+#     plotOutput("phonePlot")
+#   ),
+#   
+#   server = function(input, output) {
+#     output$phonePlot <- renderPlot({
+#       barplot(WorldPhones[,input$region]*1000, 
+#               ylab = "Number of Telephones", xlab = "Year")
+#     })
+#   },
+#   
+#   options = list(height = 500)
+# )
+```
+
+
+Here is what the R code for the shiny application above looks like. I have added "eval=False" so that the code is not run again:
+
+
+```{r, eval=FALSE}
 shinyApp(
   
   ui = fluidPage(
